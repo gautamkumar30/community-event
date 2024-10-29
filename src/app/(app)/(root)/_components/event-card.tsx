@@ -15,7 +15,7 @@ interface Props {
 }
 export const EventCard = ({ event }: Props) => {
   return (
-    <Link href={'/eventdetails'}>
+    <Link href={'/eventdetails/' + event.id}>
       <div className="rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
         <div className="w-full h-[200px] bg-primary/80 overflow-hidden">
           <img src={event.imageUrl} alt="" />

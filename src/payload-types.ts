@@ -8,220 +8,219 @@
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
-    customers: CustomerAuthOperations;
-  };
+    users: UserAuthOperations
+    customers: CustomerAuthOperations
+  }
   collections: {
-    users: User;
-    customers: Customer;
-    events: Event;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
+    users: User
+    customers: Customer
+    events: Event
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
   db: {
-    defaultIDType: number;
-  };
-  globals: {};
-  locale: null;
+    defaultIDType: number
+  }
+  globals: {}
+  locale: null
   user:
     | (User & {
-        collection: 'users';
+        collection: 'users'
       })
     | (Customer & {
-        collection: 'customers';
-      });
+        collection: 'customers'
+      })
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 export interface CustomerAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+  id: number
+  updatedAt: string
+  createdAt: string
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
+  password?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customers".
  */
 export interface Customer {
-  id: number;
-  name?: string | null;
-  role: 'customer';
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+  id: number
+  name?: string | null
+  role: 'customer'
+  updatedAt: string
+  createdAt: string
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
+  password?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  organizerId: number | User;
+  id: number
+  title: string
+  description: string
+  date: string
+  location: string
+  organizerId: number | User
   ticketOptions?:
     | {
-        type: string;
-        price: number;
-        quantity: number;
-        sold: number;
-        id?: string | null;
+        type: string
+        price: number
+        quantity: number
+        sold: number
+        id?: string | null
       }[]
-    | null;
-  status: string;
-  imageUrl: string;
+    | null
+  status: string
+  imageUrl: string
   tags?:
     | {
-        tag: string;
-        id?: string | null;
+        tag: string
+        id?: string | null
       }[]
-    | null;
+    | null
   agenda?:
     | {
-        time: string;
-        title: string;
-        description: string;
-        id?: string | null;
+        time: string
+        title: string
+        description: string
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: number
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'users'
+        value: number | User
       } | null)
     | ({
-        relationTo: 'customers';
-        value: number | Customer;
+        relationTo: 'customers'
+        value: number | Customer
       } | null)
     | ({
-        relationTo: 'events';
-        value: number | Event;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'events'
+        value: number | Event
+      } | null)
+  globalSlug?: string | null
   user:
     | {
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'users'
+        value: number | User
       }
     | {
-        relationTo: 'customers';
-        value: number | Customer;
-      };
-  updatedAt: string;
-  createdAt: string;
+        relationTo: 'customers'
+        value: number | Customer
+      }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: number
   user:
     | {
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'users'
+        value: number | User
       }
     | {
-        relationTo: 'customers';
-        value: number | Customer;
-      };
-  key?: string | null;
+        relationTo: 'customers'
+        value: number | Customer
+      }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: number
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }
-
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}
