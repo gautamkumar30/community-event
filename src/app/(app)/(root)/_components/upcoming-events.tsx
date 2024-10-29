@@ -62,7 +62,7 @@ export const UpcomingEvents = ({ events }: Props) => {
         <h1>Upcoming Events</h1>
 
         <div className="flex gap-4">
-          <input
+          {/* <input
             type="text"
             className="rounded-xl px-4 py-3 bg-gray-100"
             placeholder="Event Name"
@@ -70,7 +70,7 @@ export const UpcomingEvents = ({ events }: Props) => {
               //   console.log(e.target.value);
               setName(e.target.value)
             }}
-          />
+          /> */}
 
           <select
             name=""
@@ -107,21 +107,21 @@ export const UpcomingEvents = ({ events }: Props) => {
               //   console.log(name);
               //   console.log(item.name);
 
-              if (item.name.includes(name)) {
-                console.log(item.name)
+              if (item.title.includes(name)) {
+                console.log(item.title)
               }
-              if (item.name.includes(name)) {
+              if (item.title.includes(name)) {
                 return <EventCard event={item} key={idx} />
               }
             }
           } else {
-            if (category == item.category) {
+            if (category == item.title) {
               if (name == '') {
                 // console.log("not");
                 return <EventCard event={item} key={idx} />
               } else {
                 console.log(name)
-                if (item.name.includes(name)) {
+                if (item.title.includes(name)) {
                   return <EventCard event={item} key={idx} />
                 }
               }

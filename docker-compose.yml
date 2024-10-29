@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16.1
-    container_name: hackathon-postgres
+    container_name: hackathon-event
     ports:
       - '5432:5432' # HostPort:ContainerPort
     environment:

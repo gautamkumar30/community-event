@@ -15,14 +15,14 @@ interface Props {
 }
 export const EventCard = ({ event }: Props) => {
   return (
-    <Link href={'/eventdetails'}>
+    <Link href={'/eventdetails/' + event.id}>
       <div className="rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
         <div className="w-full h-[200px] bg-primary/80 overflow-hidden">
-          <img src="/eventimage.avif" alt="" />
+          <img src={event.imageUrl} alt="" />
         </div>
         <div className="py-6 px-8">
           <div className="flex justify-between">
-            <p className="opacity-70">{event.date}</p>
+            <p className="opacity-70">{event.title}</p>
             <p className="opacity-70">{event.location}</p>
           </div>
 
