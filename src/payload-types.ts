@@ -15,6 +15,7 @@ export interface Config {
     users: User;
     customers: Customer;
     events: Event;
+    bookings: Booking;
     feedback: Feedback;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -146,6 +147,20 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: number;
+  event: number | Event;
+  user: number | User;
+  ticketType: string;
+  quantity: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "feedback".
  */
 export interface Feedback {
@@ -191,6 +206,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: number | Booking;
       } | null)
     | ({
         relationTo: 'feedback';

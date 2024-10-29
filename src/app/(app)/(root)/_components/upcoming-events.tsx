@@ -61,8 +61,8 @@ export const UpcomingEvents = ({ events }: Props) => {
       <div className="flex justify-between">
         <h1>Upcoming Events</h1>
 
-        <div className="flex gap-4">
-          {/* <input
+        {/* <div className="flex gap-4">
+          <input
             type="text"
             className="rounded-xl px-4 py-3 bg-gray-100"
             placeholder="Event Name"
@@ -70,7 +70,7 @@ export const UpcomingEvents = ({ events }: Props) => {
               //   console.log(e.target.value);
               setName(e.target.value)
             }}
-          /> */}
+          />
 
           <select
             name=""
@@ -85,7 +85,7 @@ export const UpcomingEvents = ({ events }: Props) => {
             <option value="audiolaunch">Audio Launch</option>
             <option value="fansmeet">Fans Meet</option>
           </select>
-        </div>
+        </div> */}
       </div>
 
       <section

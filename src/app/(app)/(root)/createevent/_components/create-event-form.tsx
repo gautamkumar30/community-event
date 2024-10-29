@@ -38,7 +38,7 @@ export const CreateEventForm = () => {
             placeholder="HipHop Concert"
             required
             onChange={(e) => {
-              setData({ ...data, name: e.target.value })
+              setData({ ...data, title: e.target.value })
             }}
           />
         </div>{' '}
