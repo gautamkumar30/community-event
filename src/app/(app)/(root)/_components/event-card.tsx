@@ -27,8 +27,8 @@ export const EventCard = ({ event }: Props) => {
           </div>
 
           <div className="flex justify-between items-center">
-            <p className="mt-2 text-lg font-semibold capitalize">{event.name}</p>
-            <p className="font-semibold text-pink-400 ">{event.category}</p>
+            <p className="mt-2 text-lg font-semibold capitalize">{event.title}</p>
+            <p className="font-semibold text-pink-400 ">{'Vibe, Concert'}</p>
           </div>
         </div>
       </div>

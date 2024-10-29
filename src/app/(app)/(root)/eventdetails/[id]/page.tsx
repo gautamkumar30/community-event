@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { getUser } from '../../../../../lib/payload/getUser'
 import { headers } from 'next/headers'
 import { revalidatePath } from 'next/cache'
+import TicketOptions from '../_components/TicketOptions'
 
 interface Props {
   params: {
@@ -22,51 +23,6 @@ const EventDetails = async ({ params: { id } }: Props) => {
 
   if (!event) {
     return <div>Loading...</div>
-  }
-
-  const handleBuyTicket = async (ticket: any) => {
-    try {
-      // Update the event's ticket options
-      const updatedTicketOptions = event?.ticketOptions?.map((t: any) => {
-        if (t.type === ticket.type) {
-          return {
-            ...t,
-            quantity: t.quantity - 1,
-            sold: t.sold + 1,
-          }
-        }
-        return t
-      })
-
-      // Update the event in the database
-      await payload.update({
-        collection: 'events',
-        id: event.id,
-        data: {
-          ticketOptions: updatedTicketOptions,
-        },
-      })
-
-      // Create a new booking in the bookings collection
-      await payload.create({
-        collection: 'bookings',
-        data: {
-          event: event.id,
-          user: user.id,
-          ticketType: ticket.type,
-          quantity: 1,
-          status: 'confirmed',
-        },
-      })
-
-      alert('Ticket purchased successfully!')
-
-      revalidatePath(`/eventdetails/${event.id}`)
-    } catch (error) {
-      console.error('Error purchasing ticket:', error)
-      alert('Failed to purchase ticket. Please try again.')
-      revalidatePath(`/eventdetails/${event.id}`)
-    }
   }
 
   return (
@@ -110,28 +66,13 @@ const EventDetails = async ({ params: { id } }: Props) => {
                 </p>
               </div>
             </div>
+            <Link href={'/eventdetails/' + event.id + '/attendees'}>
+              <Button className="px-10 text-white ml-10 mt-4">View Attendees</Button>
+            </Link>
           </div>
 
           <section className="px-8 mt-20">
-            <h2 className="text-2xl font-bold">Ticket Options</h2>
-            <div className="mt-6 flex flex-col gap-6">
-              {event.ticketOptions?.map((ticket, idx) => (
-                <div key={idx} className="flex justify-between items-center border p-4 rounded-lg">
-                  <div>
-                    <p className="font-semibold">{ticket.type}</p>
-                    <p className="opacity-70">Price: ${ticket.price}</p>
-                    <p className="opacity-70">Quantity: {ticket.quantity}</p>
-                    <p className="opacity-70">Sold: {ticket.sold}</p>
-                  </div>
-                  <Button
-                    className="bg-pink-400 text-white"
-                    onClick={() => handleBuyTicket(ticket)}
-                  >
-                    Buy Ticket
-                  </Button>
-                </div>
-              ))}
-            </div>
+            <TicketOptions event={event} />
           </section>
 
           <section className="px-8 mt-20">
