@@ -3,6 +3,10 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Event } from '@/payload-types' // Assuming the Event interface is in payload-types.ts
 import { getPayloadUtil } from '@/lib/payload/payload-utils'
+import Image from 'next/image'
+import { getUser } from '../../../../../lib/payload/getUser'
+import { headers } from 'next/headers'
+import { revalidatePath } from 'next/cache'
 
 interface Props {
   params: {
@@ -12,10 +16,57 @@ interface Props {
 const EventDetails = async ({ params: { id } }: Props) => {
   const payload = await getPayloadUtil()
 
+  const user = await getUser(headers())
+
   const event = await payload.findByID({ collection: 'events', id })
 
   if (!event) {
     return <div>Loading...</div>
+  }
+
+  const handleBuyTicket = async (ticket: any) => {
+    try {
+      // Update the event's ticket options
+      const updatedTicketOptions = event?.ticketOptions?.map((t: any) => {
+        if (t.type === ticket.type) {
+          return {
+            ...t,
+            quantity: t.quantity - 1,
+            sold: t.sold + 1,
+          }
+        }
+        return t
+      })
+
+      // Update the event in the database
+      await payload.update({
+        collection: 'events',
+        id: event.id,
+        data: {
+          ticketOptions: updatedTicketOptions,
+        },
+      })
+
+      // Create a new booking in the bookings collection
+      await payload.create({
+        collection: 'bookings',
+        data: {
+          event: event.id,
+          user: user.id,
+          ticketType: ticket.type,
+          quantity: 1,
+          status: 'confirmed',
+        },
+      })
+
+      alert('Ticket purchased successfully!')
+
+      revalidatePath(`/eventdetails/${event.id}`)
+    } catch (error) {
+      console.error('Error purchasing ticket:', error)
+      alert('Failed to purchase ticket. Please try again.')
+      revalidatePath(`/eventdetails/${event.id}`)
+    }
   }
 
   return (
@@ -26,7 +77,13 @@ const EventDetails = async ({ params: { id } }: Props) => {
 
         <section className="mt-10">
           <div className="w-full h-[200px] overflow-hidden">
-            <img src={event.imageUrl} alt={event.title} className="rounded-tl-3xl rounded-tr-3xl" />
+            <img
+              src={event.imageUrl}
+              alt={event.title}
+              className="rounded-tl-3xl rounded-tr-3xl"
+              width={800}
+              height={200}
+            />
           </div>
 
           <div>
@@ -48,14 +105,9 @@ const EventDetails = async ({ params: { id } }: Props) => {
               </div>
 
               <div className="mt-8 flex justify-between">
-                <div className="flex items-center gap-4">
-                  <p className="text-lg font-semibold">Interested in the event?</p>
-
-                  <Link href={'/registersuccess'}>
-                    <Button className={'bg-pink-400 text-white px-10'}>Register</Button>
-                  </Link>
-                </div>
-                <p className="text-4xl font-bold -translate-y-2">4/5</p>
+                <p className="text-4xl font-bold ">
+                  What people has rated this event? - <span className="text-pink-400"> 4/5</span>
+                </p>
               </div>
             </div>
           </div>
@@ -71,7 +123,27 @@ const EventDetails = async ({ params: { id } }: Props) => {
                     <p className="opacity-70">Quantity: {ticket.quantity}</p>
                     <p className="opacity-70">Sold: {ticket.sold}</p>
                   </div>
-                  <Button className="bg-pink-400 text-white">Buy Ticket</Button>
+                  <Button
+                    className="bg-pink-400 text-white"
+                    onClick={() => handleBuyTicket(ticket)}
+                  >
+                    Buy Ticket
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="px-8 mt-20">
+            <h2 className="text-2xl font-bold">Agenda</h2>
+            <div className="mt-6 flex flex-col gap-6">
+              {event.agenda?.map((item, idx) => (
+                <div key={idx} className="border p-4 rounded-lg">
+                  <div className="flex justify-between items-center">
+                    <p className="font-semibold">{item.time}</p>
+                    <h3 className="text-xl font-bold">{item.title}</h3>
+                  </div>
+                  <p className="mt-2 opacity-70">{item.description}</p>
                 </div>
               ))}
             </div>
