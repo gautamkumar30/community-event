@@ -110,12 +110,36 @@ export interface Customer {
  */
 export interface Event {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  location: string;
   date: string;
-  organizedBy: string;
-  category: string;
+  location: string;
+  organizerId: number | User;
+  ticketOptions?:
+    | {
+        type: string;
+        price: number;
+        quantity: number;
+        sold: number;
+        id?: string | null;
+      }[]
+    | null;
+  status: string;
+  imageUrl: string;
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  agenda?:
+    | {
+        time: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }

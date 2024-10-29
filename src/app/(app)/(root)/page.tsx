@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { UpcomingEvents } from './_components/upcoming-events'
 import { Metrics } from './_components/metrics'
 import { getPayloadUtil } from '@/lib/payload/payload-utils'
-import { Event } from '../../../payload-types'
 
 const page = async () => {
   const paylaod = await getPayloadUtil()
@@ -23,7 +22,7 @@ const page = async () => {
       <section className="py-10 flex-grow px-10">
         <header className="w-full flex justify-between">
           <h1>Dashboard</h1>
-          <Link href={'/createevent'}>
+          {/* <Link href={'/createevent'}>
             <Button
               className={cn(
                 'text-white text-lg px-10 py-6 rounded-xl hover:-translate-y-2    duration-500 transition-all',
@@ -31,7 +30,7 @@ const page = async () => {
             >
               Create Event
             </Button>
-          </Link>
+          </Link> */}
         </header>
 
         <Metrics />
