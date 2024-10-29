@@ -37,7 +37,7 @@ const EventDetails = async () => {
 
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">{event?.title}</h1>
-                <p className="text-pink-400 font-semibold">Music</p>
+                <p className="text-pink-400 font-semibold">{}</p>
               </div>
 
               <div className="w-[800px]">
