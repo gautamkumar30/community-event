@@ -1,8 +1,22 @@
+/* eslint-disable react/no-unescaped-entities */
 import Navbar from '@/components/Navbar'
 import { Button } from '@/components/ui/button'
+import { getPayloadUtil } from '@/lib/payload/payload-utils'
+import Image from 'next/image'
 import Link from 'next/link'
 
-const EventDetails = () => {
+const EventDetails = async () => {
+  const paylaod = await getPayloadUtil()
+
+  const events = await paylaod.find({
+    collection: 'events',
+  })
+
+  const eventIdToShow = 1
+  const event = events.docs.find((event) => event.id === eventIdToShow)
+
+  console.log(event)
+
   return (
     <div className="font-bricolage w-full flex  items-start justify-start">
       <Navbar />
@@ -10,8 +24,8 @@ const EventDetails = () => {
         <h1 className="font-custom font-bri">Event Details</h1>
 
         <section className="mt-10">
-          <div className="w-full h-[200px] overflow-hidden">
-            <img src="/eventimage.avif" alt="" className="rounded-tl-3xl rounded-tr-3xl " />
+          <div className="w-full h-[200px] relative overflow-hidden">
+            <Image src={'/public/one-image.jpg'} fill alt="image" className="object-cover" />
           </div>
 
           <div>
@@ -22,7 +36,7 @@ const EventDetails = () => {
               </div>
 
               <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">HipHop Concert</h1>
+                <h1 className="text-2xl font-bold">{event?.title}</h1>
                 <p className="text-pink-400 font-semibold">Music</p>
               </div>
 
@@ -69,7 +83,7 @@ const EventDetails = () => {
             <section className="mt-6 flex flex-col gap-6">
               {[1, 2, 3, 4, 5].map((item, idx) => {
                 return (
-                  <div className="flex gap-6 items-center" key={item}>
+                  <div className="flex gap-6 items-center" key={idx}>
                     <div className="w-[40px] h-[40px] bg-gray-300 rounded-full"></div>
 
                     <div className="flex flex-col gap-1">

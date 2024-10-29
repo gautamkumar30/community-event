@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { UpcomingEvents } from './_components/upcoming-events'
 import { Metrics } from './_components/metrics'
 import { getPayloadUtil } from '@/lib/payload/payload-utils'
-import { Event } from '../../../payload-types'
+// import { Event } from '../../../payload-types'
 
 const page = async () => {
   const paylaod = await getPayloadUtil()

@@ -15,6 +15,7 @@ export interface Config {
     users: User;
     customers: Customer;
     events: Event;
+    feedback: Feedback;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -110,12 +111,65 @@ export interface Customer {
  */
 export interface Event {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  location: string;
   date: string;
-  organizedBy: string;
-  category: string;
+  location: string;
+  organizerId: number | User;
+  ticketOptions?:
+    | {
+        type: string;
+        price: number;
+        quantity: number;
+        sold: number;
+        id?: string | null;
+      }[]
+    | null;
+  status: string;
+  imageUrl: string;
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  agenda?:
+    | {
+        time: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "feedback".
+ */
+export interface Feedback {
+  id: number;
+  customerName: string;
+  eventTitle: string;
+  overallExperienceRating: number;
+  recommendEvent: 'yes' | 'no';
+  specificFeedback: {
+    favoriteExperience?: string | null;
+    areasForImprovement?: string | null;
+    qualityOfContent: number;
+    satisfactionWithSpeakers: number;
+  };
+  logisticsAndOrganization: {
+    venueSatisfaction: number;
+    registrationProcess?: string | null;
+  };
+  additionalInsights: {
+    topicsForFutureEvents?: string | null;
+    sourceOfEventInformation?: string | null;
+    wouldAttendAgain: 'yes' | 'no';
+  };
+  openFeedback?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -137,6 +191,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'feedback';
+        value: number | Feedback;
       } | null);
   globalSlug?: string | null;
   user:

@@ -8,7 +8,7 @@ import sharp from 'sharp'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { env } from './env'
 
-import { Users, Customer, Events } from './collections'
+import { Users, Customer, Events, Feedback } from './collections'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -31,7 +31,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Customer, Events],
+  collections: [Users, Customer, Events, Feedback],
 
   editor: lexicalEditor({
     admin: {
